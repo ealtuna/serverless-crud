@@ -10,10 +10,12 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "serverless-dynamodb-local": "^0.2.33",
     "serverless-offline": "^3.25.10"
   },
   "dependencies": {
+    "aws-sdk": "^2.308.0",
     "dotenv": "^6.0.0",
-    "mongoose": "^5.2.12"
+    "uuid": "^3.3.2"
   }
 }
