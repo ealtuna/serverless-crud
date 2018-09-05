@@ -1,0 +1,47 @@
+service: orangetheory
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: dev
+  region: us-east-1
+
+functions:
+  create:
+    handler: handler.create
+    events:
+      - http:
+          path: members
+          method: post
+          cors: true
+  getOne:
+    handler: handler.getOne
+    events:
+      - http:
+          path: members/{id}
+          method: get
+          cors: true
+  getAll:
+    handler: handler.getAll
+    events:
+     - http:
+         path: members
+         method: get
+         cors: true
+  update:
+    handler: handler.update
+    events:
+     - http:
+         path: members/{id}
+         method: put
+         cors: true
+  delete:
+    handler: handler.delete
+    events:
+     - http:
+         path: members/{id}
+         method: delete
+         cors: true
+
+plugins:
+- serverless-offline
