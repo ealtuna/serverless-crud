@@ -54,6 +54,11 @@ module.exports.getAll = async () => {
   }
 };
 
+/**
+ * In a real world application you may need the support for update
+ * specific fields. In this example its assumed you are going to
+ * update always all the fields.
+ */
 module.exports.update = async (event) => {
   try {
     if (!await MemberModel.get(event.pathParameters.id)) {

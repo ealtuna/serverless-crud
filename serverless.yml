@@ -66,7 +66,7 @@ functions:
 
 resources:
   Resources:
-    TodosDynamoDbTable:
+    MembersDynamoDbTable:
       Type: 'AWS::DynamoDB::Table'
       DeletionPolicy: Retain
       Properties:
