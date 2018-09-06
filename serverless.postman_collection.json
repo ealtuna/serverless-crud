@@ -1,0 +1,593 @@
+{
+	"info": {
+		"_postman_id": "9ab98bd3-c966-4753-af11-6bbf5b19eb7c",
+		"name": "serverless",
+		"description": "# Introduction\nManage the CRUD operations for a member\n\n# Overview\n\n## For test purpouses using Postman\nIn order to automate the generation of user data you can set a pre-request script to get it from randomuser.me API:\n\n    pm.sendRequest(\"https://randomuser.me/api/?seed=ealtuna\", function (err, res) {\n        postman.setEnvironmentVariable(\"user_data\", JSON.stringify(res.json().results[0]));\n    });\n    \nAlso in the requests that insert and delete data you can add a test script to capture the ID of the last element:\n\n    postman.setEnvironmentVariable(\"member_id\", JSON.parse(responseBody)._id);\n\n# Authentication\nIt does not use any authentication method\n\n# Error Codes\nWhen requested an operation over a non existing element you are going to get a 404 response. Any other error will generate a 500 response code.\n\n# Rate limit\nNo artificial limit in the number of requests, only the one imposed by the scalability metrics of the provisioned databse.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6f65ea31-a8d8-4812-b12e-0dd30073e066",
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"member_id\", pm.response.json().id);",
+							""
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "34dcaeac-a0c2-4695-8cec-caef6c3c3bd8",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{user_data}}"
+				},
+				"url": {
+					"raw": "{{url}}/members",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"members"
+					]
+				},
+				"description": "Takes as body the payload with member data to be created. When successfull the response constain the JSON representation of the created member. If error it will include its description and the error code."
+			},
+			"response": [
+				{
+					"name": "Create member",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gender\": \"male\",\n    \"name\": {\n        \"title\": \"mr\",\n        \"first\": \"harrison\",\n        \"last\": \"morris\"\n    },\n    \"location\": {\n        \"street\": \"8582 marine parade\",\n        \"city\": \"tauranga\",\n        \"state\": \"tasman\",\n        \"postcode\": \"57978\",\n        \"coordinates\": {\n            \"latitude\": \"61.3743\",\n            \"longitude\": \"-95.1755\"\n        },\n        \"timezone\": {\n            \"offset\": \"+11:00\",\n            \"description\": \"Magadan, Solomon Islands, New Caledonia\"\n        }\n    },\n    \"email\": \"harrison.morris@example.com\",\n    \"login\": {\n        \"uuid\": \"68fd8cc8-dc6e-4283-a250-aaab2a5dc112\",\n        \"username\": \"goldenbird714\",\n        \"password\": \"beretta\",\n        \"salt\": \"2Yy3kGlM\",\n        \"md5\": \"8c9c797b2dd0607664c8aff25a226de4\",\n        \"sha1\": \"bed046144a082f19f130fcf9cc59c91644232c59\",\n        \"sha256\": \"8db900061ec1bce1540fade4a53cf42ce451ea80eb417a01ce0ef82802848498\"\n    },\n    \"dob\": {\n        \"date\": \"1977-12-20T22:19:53.000Z\",\n        \"age\": 40\n    },\n    \"registered\": {\n        \"date\": \"2012-06-14T08:59:15.000Z\",\n        \"age\": 6\n    },\n    \"phone\": \"(163)-871-0169\",\n    \"cell\": \"(641)-661-5823\",\n    \"id\": {\n        \"name\": \"\",\n        \"value\": null\n    }\n}"
+						},
+						"url": {
+							"raw": "{{url}}/members",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 04 Sep 2018 20:15:15 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "cache-control",
+							"value": "no-cache",
+							"name": "cache-control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "content-encoding",
+							"value": "gzip",
+							"name": "content-encoding",
+							"description": "The type of encoding used on the data."
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8",
+							"name": "content-type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "vary",
+							"value": "origin,accept-encoding",
+							"name": "vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\"_id\":\"5b8ee7d378e269d6f434f737\",\"gender\":\"male\",\"name\":{\"title\":\"mr\",\"first\":\"harrison\",\"last\":\"morris\"},\"location\":{\"street\":\"8582 marine parade\",\"city\":\"tauranga\",\"state\":\"tasman\",\"postcode\":\"57978\",\"coordinates\":{\"latitude\":\"61.3743\",\"longitude\":\"-95.1755\"},\"timezone\":{\"offset\":\"+11:00\",\"description\":\"Magadan, Solomon Islands, New Caledonia\"}},\"email\":\"harrison.morris@example.com\",\"login\":{\"uuid\":\"68fd8cc8-dc6e-4283-a250-aaab2a5dc112\",\"username\":\"goldenbird714\",\"password\":\"beretta\",\"salt\":\"2Yy3kGlM\",\"md5\":\"8c9c797b2dd0607664c8aff25a226de4\",\"sha1\":\"bed046144a082f19f130fcf9cc59c91644232c59\",\"sha256\":\"8db900061ec1bce1540fade4a53cf42ce451ea80eb417a01ce0ef82802848498\"},\"dob\":{\"date\":\"1977-12-20T22:19:53.000Z\",\"age\":40},\"registered\":{\"date\":\"2012-06-14T08:59:15.000Z\",\"age\":6},\"phone\":\"(163)-871-0169\",\"cell\":\"(641)-661-5823\",\"id\":{\"name\":\"\",\"value\":null},\"__v\":0}"
+				}
+			]
+		},
+		{
+			"name": "Get member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "91f3624b-83f2-41d5-b175-b594e68be9ca",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/members/{{member_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"members",
+						"{{member_id}}"
+					]
+				},
+				"description": "Takes as URL parameter the ID of the member to modify. When successfull the response constain the JSON representation of the requested member. If error it will include its description and the error code."
+			},
+			"response": [
+				{
+					"name": "Get member",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/members/5b8ee7d378e269d6f434f737",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"members",
+								"5b8ee7d378e269d6f434f737"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 04 Sep 2018 20:23:56 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "cache-control",
+							"value": "no-cache",
+							"name": "cache-control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "content-encoding",
+							"value": "gzip",
+							"name": "content-encoding",
+							"description": "The type of encoding used on the data."
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8",
+							"name": "content-type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "vary",
+							"value": "origin,accept-encoding",
+							"name": "vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\"_id\":\"5b8ee7d378e269d6f434f737\",\"gender\":\"male\",\"name\":{\"title\":\"mr\",\"first\":\"harrison\",\"last\":\"morris\"},\"location\":{\"street\":\"8582 marine parade\",\"city\":\"tauranga\",\"state\":\"tasman\",\"postcode\":\"57978\",\"coordinates\":{\"latitude\":\"61.3743\",\"longitude\":\"-95.1755\"},\"timezone\":{\"offset\":\"+11:00\",\"description\":\"Magadan, Solomon Islands, New Caledonia\"}},\"email\":\"harrison.morris@example.com\",\"login\":{\"uuid\":\"68fd8cc8-dc6e-4283-a250-aaab2a5dc112\",\"username\":\"goldenbird714\",\"password\":\"beretta\",\"salt\":\"2Yy3kGlM\",\"md5\":\"8c9c797b2dd0607664c8aff25a226de4\",\"sha1\":\"bed046144a082f19f130fcf9cc59c91644232c59\",\"sha256\":\"8db900061ec1bce1540fade4a53cf42ce451ea80eb417a01ce0ef82802848498\"},\"dob\":{\"date\":\"1977-12-20T22:19:53.000Z\",\"age\":40},\"registered\":{\"date\":\"2012-06-14T08:59:15.000Z\",\"age\":6},\"phone\":\"(163)-871-0169\",\"cell\":\"(641)-661-5823\",\"id\":{\"name\":\"\",\"value\":null},\"__v\":0}"
+				}
+			]
+		},
+		{
+			"name": "Get members",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/members",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"members"
+					]
+				},
+				"description": "Takes no parameters. When successfull the response constain the JSON representation all the existing members. If error it will include its description and the error code."
+			},
+			"response": [
+				{
+					"name": "Get members",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/members",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"members"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 04 Sep 2018 20:24:38 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "cache-control",
+							"value": "no-cache",
+							"name": "cache-control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "content-encoding",
+							"value": "gzip",
+							"name": "content-encoding",
+							"description": "The type of encoding used on the data."
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8",
+							"name": "content-type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "vary",
+							"value": "origin,accept-encoding",
+							"name": "vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "[{\"_id\":\"5b8ee7d378e269d6f434f737\",\"gender\":\"male\",\"name\":{\"title\":\"mr\",\"first\":\"harrison\",\"last\":\"morris\"},\"location\":{\"street\":\"8582 marine parade\",\"city\":\"tauranga\",\"state\":\"tasman\",\"postcode\":\"57978\",\"coordinates\":{\"latitude\":\"61.3743\",\"longitude\":\"-95.1755\"},\"timezone\":{\"offset\":\"+11:00\",\"description\":\"Magadan, Solomon Islands, New Caledonia\"}},\"email\":\"harrison.morris@example.com\",\"login\":{\"uuid\":\"68fd8cc8-dc6e-4283-a250-aaab2a5dc112\",\"username\":\"goldenbird714\",\"password\":\"beretta\",\"salt\":\"2Yy3kGlM\",\"md5\":\"8c9c797b2dd0607664c8aff25a226de4\",\"sha1\":\"bed046144a082f19f130fcf9cc59c91644232c59\",\"sha256\":\"8db900061ec1bce1540fade4a53cf42ce451ea80eb417a01ce0ef82802848498\"},\"dob\":{\"date\":\"1977-12-20T22:19:53.000Z\",\"age\":40},\"registered\":{\"date\":\"2012-06-14T08:59:15.000Z\",\"age\":6},\"phone\":\"(163)-871-0169\",\"cell\":\"(641)-661-5823\",\"id\":{\"name\":\"\",\"value\":null},\"__v\":0}]"
+				}
+			]
+		},
+		{
+			"name": "Update member",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "11aead6b-3da8-4e81-ba46-1f2f77e5eeb6",
+						"type": "text/javascript",
+						"exec": [
+							"postman.setEnvironmentVariable(\"member_id\", JSON.parse(responseBody)._id);"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "915984e9-c0c4-4dda-92fb-fbc2cd2e4123",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{user_data}}"
+				},
+				"url": {
+					"raw": "{{url}}/members/{{member_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"members",
+						"{{member_id}}"
+					]
+				},
+				"description": "Takes as URL paramater the ID of the element to update and as body the payload with member data to be updated. When successfull the response constain the JSON representation of the updated member. If error it will include its description and the error code."
+			},
+			"response": [
+				{
+					"name": "Update member",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"disabled": false
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gender\": \"male\",\n    \"name\": {\n        \"title\": \"mr\",\n        \"first\": \"harrison\",\n        \"last\": \"morris\"\n    },\n    \"location\": {\n        \"street\": \"8582 marine parade\",\n        \"city\": \"tauranga\",\n        \"state\": \"tasman\",\n        \"postcode\": \"57978\",\n        \"coordinates\": {\n            \"latitude\": \"61.3743\",\n            \"longitude\": \"-95.1755\"\n        },\n        \"timezone\": {\n            \"offset\": \"+11:00\",\n            \"description\": \"Magadan, Solomon Islands, New Caledonia\"\n        }\n    },\n    \"email\": \"harrison.morris@example.com\",\n    \"login\": {\n        \"uuid\": \"68fd8cc8-dc6e-4283-a250-aaab2a5dc112\",\n        \"username\": \"goldenbird714\",\n        \"password\": \"beretta\",\n        \"salt\": \"2Yy3kGlM\",\n        \"md5\": \"8c9c797b2dd0607664c8aff25a226de4\",\n        \"sha1\": \"bed046144a082f19f130fcf9cc59c91644232c59\",\n        \"sha256\": \"8db900061ec1bce1540fade4a53cf42ce451ea80eb417a01ce0ef82802848498\"\n    },\n    \"dob\": {\n        \"date\": \"1977-12-20T22:19:53.000Z\",\n        \"age\": 40\n    },\n    \"registered\": {\n        \"date\": \"2012-06-14T08:59:15.000Z\",\n        \"age\": 6\n    },\n    \"phone\": \"(163)-871-0169\",\n    \"cell\": \"(641)-661-5823\",\n    \"id\": {\n        \"name\": \"\",\n        \"value\": null\n    }\n}"
+						},
+						"url": {
+							"raw": "{{url}}/members/5b8ee7d378e269d6f434f737",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"members",
+								"5b8ee7d378e269d6f434f737"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 04 Sep 2018 20:24:54 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "cache-control",
+							"value": "no-cache",
+							"name": "cache-control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "content-encoding",
+							"value": "gzip",
+							"name": "content-encoding",
+							"description": "The type of encoding used on the data."
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8",
+							"name": "content-type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "vary",
+							"value": "origin,accept-encoding",
+							"name": "vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\"_id\":\"5b8ee7d378e269d6f434f737\",\"gender\":\"male\",\"name\":{\"title\":\"mr\",\"first\":\"harrison\",\"last\":\"morris\"},\"location\":{\"street\":\"8582 marine parade\",\"city\":\"tauranga\",\"state\":\"tasman\",\"postcode\":\"57978\",\"coordinates\":{\"latitude\":\"61.3743\",\"longitude\":\"-95.1755\"},\"timezone\":{\"offset\":\"+11:00\",\"description\":\"Magadan, Solomon Islands, New Caledonia\"}},\"email\":\"harrison.morris@example.com\",\"login\":{\"uuid\":\"68fd8cc8-dc6e-4283-a250-aaab2a5dc112\",\"username\":\"goldenbird714\",\"password\":\"beretta\",\"salt\":\"2Yy3kGlM\",\"md5\":\"8c9c797b2dd0607664c8aff25a226de4\",\"sha1\":\"bed046144a082f19f130fcf9cc59c91644232c59\",\"sha256\":\"8db900061ec1bce1540fade4a53cf42ce451ea80eb417a01ce0ef82802848498\"},\"dob\":{\"date\":\"1977-12-20T22:19:53.000Z\",\"age\":40},\"registered\":{\"date\":\"2012-06-14T08:59:15.000Z\",\"age\":6},\"phone\":\"(163)-871-0169\",\"cell\":\"(641)-661-5823\",\"id\":{\"name\":\"\",\"value\":null},\"__v\":0}"
+				}
+			]
+		},
+		{
+			"name": "Delete member",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/members/{{member_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"members",
+						"{{member_id}}"
+					]
+				},
+				"description": "Takes as URL parameter the ID of the element to be deleted. When successfull the response constain the JSON representation of the deleted member. If error it will include its description and the error code."
+			},
+			"response": [
+				{
+					"name": "Delete member",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/members/5b8ee7d378e269d6f434f737",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"members",
+								"5b8ee7d378e269d6f434f737"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 04 Sep 2018 20:26:07 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked",
+							"name": "Transfer-Encoding",
+							"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+						},
+						{
+							"key": "cache-control",
+							"value": "no-cache",
+							"name": "cache-control",
+							"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+						},
+						{
+							"key": "content-encoding",
+							"value": "gzip",
+							"name": "content-encoding",
+							"description": "The type of encoding used on the data."
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8",
+							"name": "content-type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "vary",
+							"value": "origin,accept-encoding",
+							"name": "vary",
+							"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+						}
+					],
+					"cookie": [],
+					"body": "{\"_id\":\"5b8ee7d378e269d6f434f737\",\"gender\":\"male\",\"name\":{\"title\":\"mr\",\"first\":\"harrison\",\"last\":\"morris\"},\"location\":{\"street\":\"8582 marine parade\",\"city\":\"tauranga\",\"state\":\"tasman\",\"postcode\":\"57978\",\"coordinates\":{\"latitude\":\"61.3743\",\"longitude\":\"-95.1755\"},\"timezone\":{\"offset\":\"+11:00\",\"description\":\"Magadan, Solomon Islands, New Caledonia\"}},\"email\":\"harrison.morris@example.com\",\"login\":{\"uuid\":\"68fd8cc8-dc6e-4283-a250-aaab2a5dc112\",\"username\":\"goldenbird714\",\"password\":\"beretta\",\"salt\":\"2Yy3kGlM\",\"md5\":\"8c9c797b2dd0607664c8aff25a226de4\",\"sha1\":\"bed046144a082f19f130fcf9cc59c91644232c59\",\"sha256\":\"8db900061ec1bce1540fade4a53cf42ce451ea80eb417a01ce0ef82802848498\"},\"dob\":{\"date\":\"1977-12-20T22:19:53.000Z\",\"age\":40},\"registered\":{\"date\":\"2012-06-14T08:59:15.000Z\",\"age\":6},\"phone\":\"(163)-871-0169\",\"cell\":\"(641)-661-5823\",\"id\":{\"name\":\"\",\"value\":null},\"__v\":0}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b3e6ae1c-60db-441f-995f-15df9660e738",
+				"type": "text/javascript",
+				"exec": [
+					"pm.sendRequest(\"https://randomuser.me/api/?seed=ealtuna\", function (err, res) {",
+					"    postman.setEnvironmentVariable(\"user_data\", JSON.stringify(res.json().results[0]));",
+					"});"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "74269e49-e256-4fde-85a0-21e93219b487",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "a5ebc448-71c3-4f48-8ffd-3c93c5cf1691",
+			"key": "url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"id": "ba8409cb-2d3f-40d0-80b6-84ab89430903",
+			"key": "member_id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
