@@ -10,6 +10,14 @@ module.exports = {
     return result.Item;
   },
 
+  async getAll() {
+    const params = {
+      TableName: process.env.DYNAMODB_TABLE,
+    };
+    const result = await dynamodb.scan(params).promise();
+    return result.Items;
+  },
+
   async upsert(id, member) {
     const params = {
       TableName: process.env.DYNAMODB_TABLE,
@@ -18,4 +26,12 @@ module.exports = {
     await dynamodb.put(params).promise();
     return params.Item;
   },
-}
+
+  async delete(id) {
+    const params = {
+      TableName: process.env.DYNAMODB_TABLE,
+      Key: { id },
+    };
+    return dynamodb.delete(params);
+  },
+};
